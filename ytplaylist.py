@@ -51,22 +51,43 @@ def converter_arquivos():
         print(f'A pasta {pasta_destino} não foi encontrada.')
         parar()
 
+def validar_link_youtube(link):
+    dominios_validos = ["youtube.com", "m.youtube.com", "youtu.be"]
+    
+    for dominio in dominios_validos:
+        if dominio in link:
+            return True
+    
+    return False
+
 def parar():
-    os.remove("lista_playlist.txt")
-    resposta = input("Deseja continuar? ")
-    if resposta.upper() == "Y":
-        criar_lista_txt(link_playlist)
+    if os.path.exists("lista_playlist.txt"):
+        try:
+            os.remove("lista_playlist.txt")
+            print("Arquivo 'lista_playlist.txt' removido.")
+        except Exception as e:
+            print(f'Erro ao remover o arquivo: {str(e)}')
+
+    resposta = input("Deseja continuar (s/n)? ")
+    if resposta.upper() == "S" or resposta.upper() == "SIM":
+        main_app()
     else:
         quit()
 
 # Pasta de destino para os vídeos baixados
-pasta_destino = 'downloads'
+pasta_destino = 'downloads_mp3'
 
 # Certifique-se de que a pasta de destino existe, se não, crie-a
 if not os.path.exists(pasta_destino):
     os.makedirs(pasta_destino)
 
-link_playlist = input("Digite o link da playlist do YouTube: ")
-input("Pressione qualquer tecla para iniciar o programa... ")
+def main_app():
+    link_playlist = input("Digite o link da playlist do YouTube: ")
+    if not validar_link_youtube(link_playlist):
+        print("O link inserido não parece ser um link válido do YouTube.")
+        parar()
+        
+    input("Pressione Enter para continuar... ")
+    criar_lista_txt(link_playlist)
 
-criar_lista_txt(link_playlist)
+main_app()
