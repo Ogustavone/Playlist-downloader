@@ -41,8 +41,18 @@ def baixar_videos():
             stream.download(output_path=pasta_destino, filename=nome_arquivo)
             print(f'Vídeo "{titulo_video}" baixado com sucesso.')
         except Exception as e:
+            os.system('cls')
             print(f'Erro ao baixar o vídeo {i}: {str(e)}')
-            parar()
+            print('''
+[1] Parar
+[2] Continuar''')
+            
+            r = input('Insira o número: ')
+            if r == '1':
+                parar()
+            else:
+                os.system('cls')
+                continue
 
     converter_arquivos()
 
@@ -97,7 +107,7 @@ if not os.path.exists(pasta_destino):
     os.makedirs(pasta_destino)
 
 def main_app():
-
+    os.system('cls')
     print("---" * 16)
     print("Mp3 Playlist downloader - Feito por Gustavo")
     print("Visite meu perfil: https://github.com/Ogustavone")
